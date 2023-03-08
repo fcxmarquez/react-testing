@@ -1,45 +1,37 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+import { ButtonForwardRef } from "./components/ButtonForwardRef";
+import { Button } from "./components/Button";
+import { createRef } from "react";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+
+  const buttonForwardRef = createRef<HTMLButtonElement>();
+
+  const buttonRef = createRef<HTMLButtonElement>();
+
+  // Access the button elements with their refs
+  const handleClick = () => {
+    console.log(
+      "buttonForwardRef value:",
+      buttonForwardRef.current?.textContent
+    );
+    console.log("buttonRef value:", buttonRef.current?.textContent);
+    setCount(count + 1);
+  };
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+      <Button onClick={handleClick} ref={buttonRef}>
+        Click me
+      </Button>
+      <ButtonForwardRef onClick={handleClick} ref={buttonForwardRef}>
+        Click me forward ref
+      </ButtonForwardRef>
+      <p>Count: {count}</p>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
